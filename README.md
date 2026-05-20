@@ -1,4 +1,3 @@
-```markdown
 # Ad Click-Through Rate (CTR) Optimization using Wide & Deep Learning
 
 This repository features a custom Wide & Deep Neural Network implemented in PyTorch designed for digital advertising platforms to maximize conversion performance while reducing wasted ad spend. The pipeline balances low-order feature memorization with high-order feature generalization to predict user click-through probabilities.
@@ -20,14 +19,6 @@ By computing precise click probabilities, the platform allows real-time bidding 
 ## Dataset Structure & Feature Mapping
 
 The pipeline streams a high-dimensional source array via scikit-learn's `fetch_covtype` dataset containing 50,000 sampled observations as a processing proxy for large-scale, anonymized digital interaction logs.
-
-
-```
-
-Dataset Layout: 50,000 rows x 55 columns
-Baseline Target CTR (Conversion Rate): ~48.60%
-
-```
 
 The system organizes 54 feature columns into two structural pipelines:
 
@@ -77,79 +68,3 @@ git clone [https://github.com/your-username/ad-ctr-optimization-wide-deep.git](h
 cd ad-ctr-optimization-wide-deep
 pip install torch pandas numpy scikit-learn matplotlib seaborn datasets
 
-```
-
----
-
-## Training & Optimization Pipeline
-
-The workflow handles memory loading through a structured tensor assembly:
-
-* **Batch Size:** 128
-* **Optimizer:** Adam (Learning Rate = 0.001)
-* **Loss Function:** Binary Cross-Entropy Loss (`nn.BCELoss`)
-* **Epochs:** 10
-
-```python
-model = WideAndDeep(sparse_dim=44, dense_dim=10)
-criterion = nn.BCELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-for s_batch, d_batch, y_batch in loader:
-    optimizer.zero_grad()
-    predictions = model(s_batch.float(), d_batch)
-    loss = criterion(predictions, y_batch)
-    loss.backward()
-    optimizer.step()
-
-```
-
----
-
-## Evaluation & Business Analytics
-
-The notebook validates performance via four discrete diagnostic metrics and visualizations:
-
-1. **ROC-AUC Metrics:** The final model achieves a definitive ROC-AUC Score of 0.9040, demonstrating strong discriminatory power between converting and non-converting profiles.
-2. **Confusion Matrix:** Evaluates real-time classification accuracy to pinpoint False Positives (wasted marketing costs) versus True Positives (captured conversions).
-3. **Contextual Correlation Matrices:** Explores feature dependencies within dense columns using Seaborn heatmaps.
-4. **Wide Weight Extraction:** Evaluates coefficients directly from the wide linear parameters to uncover which platform layers or interest groupings yield the highest real-world ad responsiveness.
-
----
-
-## Live Simulation Interface
-
-The pipeline includes an interactive production verification engine (`simulate_user_visit`) to run inference on arbitrary traffic profiles and generate immediate business decisions:
-
-```python
-simulate_user_visit(segment_name="Tech_Enthusiast", platform="Mobile_App", scroll_depth=0.85)
-
-```
-
-**Expected Runtime Logs:**
-
-```text
-Simulating a Tech_Enthusiast visiting via Mobile_App...
-Result: Tech_Enthusiast has a 78.42% chance of clicking.
-Decision: HIGH VALUE - DISPLAY AD
-
-```
-
----
-
-## Repository Contents
-
-```text
-├── Ad_Optimization_Project.ipynb  # Primary Jupyter notebook containing the pipeline
-├── README.md                      # Production system documentation
-└── requirements.txt               # Declared project dependencies
-
-```
-
-## License
-
-This project is open-source and available under the MIT License.
-
-```
-
-```
